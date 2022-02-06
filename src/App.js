@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import ChatRoom from "./components/ChatRoom";
 import ChatRoomsList from "./components/ChatRoomsList";
 import { Route, Routes } from "react-router-dom";
+import chatStore from "./components/ChatStore";
+import { observer } from "mobx-react";
 
 const App = () => {
-  const [rooms, setRooms] = useState([]);
-
-  const createRoom = (newRoom) => {
-    // to do : call BE to create a room
-  };
-
-  const deleteRoom = (id) => {
-    // to do : call BE to delete a room
-  };
+  chatStore.fetchRooms();
 
   return (
     <div className="__main">
@@ -23,9 +17,13 @@ const App = () => {
           <Routes>
             <Route
               path="/room/:roomSlug"
-              element={<ChatRoom rooms={rooms} />}
+              element={<ChatRoom rooms={chatStore.rooms} />}
             />
-            <Route exact path="/" element={<ChatRoomsList rooms={rooms} />} />
+            <Route
+              exact
+              path="/"
+              element={<ChatRoomsList rooms={chatStore.rooms} />}
+            />
           </Routes>
         </center>
       </div>
@@ -33,4 +31,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default observer(App);

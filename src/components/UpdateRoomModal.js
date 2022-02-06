@@ -1,5 +1,6 @@
 import { Modal, Button, InputGroup, Form } from "react-bootstrap";
 import React, { useState } from "react";
+import chatStore from "./ChatStore";
 
 const UpdateRoomModal = ({ room, isOpen, closeModal }) => {
   const [roomForm, setRoomForm] = useState({
@@ -12,6 +13,8 @@ const UpdateRoomModal = ({ room, isOpen, closeModal }) => {
     setRoomForm({ ...roomForm, [event.target.name]: event.target.value });
   };
   const handleSubmit = (event) => {
+    event.preventDefault();
+    chatStore.updateRoom(room.id, roomForm);
     closeModal();
   };
   return (
